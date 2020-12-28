@@ -9,5 +9,6 @@ module.exports = {
   },
   rules: {
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'arrow-body-style': false,
   },
 };
