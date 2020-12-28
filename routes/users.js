@@ -19,10 +19,11 @@ router.get('/:id', (req, res) => {
   const { id } = req.params;
   readJson(filePath)
     .then((users) => {
-      if (!users.find((user) => user._id === id)) {
+      const user = users.find((user) => user._id === id);
+      if (!user) {
         res.status(404).send({ message: 'Нет пользователя с таким id' });
       } else {
-        res.send(users.find((user) => user._id === id));
+        res.send(user);
       }
     })
     .catch((err) => {
