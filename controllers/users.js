@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { handleError } = require('../utils/utils');
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -12,13 +13,7 @@ module.exports.getUser = (req, res) => {
       res.send({ message: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(404).send({
-          message: `Пользователь с id: ${req.params.id} не найден`,
-        });
-        return;
-      }
-      res.status(500).send({ message: err.message });
+      handleError(err, req, res);
     });
 };
 
@@ -28,11 +23,7 @@ module.exports.createUser = (req, res) => {
   User.create({ name, about, avatar })
     .then((user) => res.send({ user: user }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: err.message });
-        return;
-      }
-      res.status(500).send({ message: err.name });
+      handleError(err, req, res);
     });
 };
 
@@ -49,11 +40,7 @@ module.exports.updateProfile = (req, res) => {
   )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: err.message });
-        return;
-      }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      handleError(err, req, res);
     });
 };
 
@@ -69,10 +56,6 @@ module.exports.updateAvatar = (req, res) => {
   )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: err.message });
-        return;
-      }
-      res.status(500).send({ message: 'Произошла ошибка' });
+      handleError(err, req, res);
     });
 };

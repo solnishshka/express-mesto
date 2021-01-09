@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { handleError } = require('../utils/utils');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
@@ -13,11 +14,7 @@ module.exports.createCard = (req, res) => {
   Card.create({ name, link, owner: id })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      if (err && err.name === 'ValidationError') {
-        res.status(400).send({ message: err.message });
-        return;
-      }
-      res.status(500).send({ message: err.message });
+      handleError(err, req, res);
     });
 };
 
@@ -27,13 +24,7 @@ module.exports.deleteCard = (req, res) => {
       res.send({ message: `Карточка с id: ${card._id} успешно удалена` });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res
-          .status(404)
-          .send({ message: `Карточка с id: ${req.params.cardId} не найдена` });
-        return;
-      }
-      res.status(500).send({ message: err });
+      handleError(err, req, res);
     });
 };
 
@@ -45,13 +36,7 @@ module.exports.likeCard = (req, res) => {
   )
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res
-          .status(404)
-          .send({ message: `Карточка с id: ${req.params.cardId} не найдена` });
-        return;
-      }
-      res.status(500).send({ message: err });
+      handleError(err, req, res);
     });
 };
 
@@ -63,12 +48,6 @@ module.exports.dislikeCard = (req, res) => {
   )
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        res
-          .status(404)
-          .send({ message: `Карточка с id: ${req.params.cardId} не найдена` });
-        return;
-      }
-      res.status(500).send({ message: err });
+      handleError(err, req, res);
     });
 };
