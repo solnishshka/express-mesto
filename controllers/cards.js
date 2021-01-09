@@ -20,6 +20,7 @@ module.exports.createCard = (req, res) => {
 
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
+    .orFail()
     .then((card) => {
       res.send({ message: `Карточка с id: ${card._id} успешно удалена` });
     })
@@ -32,8 +33,9 @@ module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
+    .orFail()
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       handleError(err, req, res);
@@ -44,8 +46,9 @@ module.exports.dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
+    .orFail()
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       handleError(err, req, res);

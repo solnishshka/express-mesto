@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 const { PORT = 3000 } = process.env;
-const path = require('path');
 const bodyParser = require('body-parser');
 
 const cardsRoute = require('./routes/cards');
@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 app.use(bodyParser.json());
 

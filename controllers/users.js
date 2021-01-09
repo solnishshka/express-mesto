@@ -8,7 +8,7 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUser = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.params.id).orFail()
     .then((user) => {
       res.send({ message: user });
     })
@@ -21,7 +21,7 @@ module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar })
-    .then((user) => res.send({ user: user }))
+    .then((user) => res.send({ user }))
     .catch((err) => {
       handleError(err, req, res);
     });
@@ -36,7 +36,7 @@ module.exports.updateProfile = (req, res) => {
       new: true,
       runValidators: true,
       upsert: true,
-    }
+    },
   )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
@@ -52,7 +52,7 @@ module.exports.updateAvatar = (req, res) => {
       new: true,
       runValidators: true,
       upsert: true,
-    }
+    },
   )
     .then((user) => res.send({ data: user }))
     .catch((err) => {

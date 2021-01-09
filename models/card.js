@@ -13,7 +13,7 @@ const cardSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(v) {
-          const regex = /https?:\/\/w?.?[a-z0-9A-Z_.-]+[a-zA-Z0-9-._~:\/?#[\]@!$&'%()*+,;=]+/gi;
+          const regex = /https?:\/\/w?.?[a-z0-9A-Z_.-]+[a-zA-Z0-9-._~:?#/[\]@!$&'%()*+,;=]+/gi;
           return regex.test(v);
         },
         message: (props) => `${props.value} - некорректный URL!`,
@@ -33,7 +33,7 @@ const cardSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 module.exports = mongoose.model('card', cardSchema);
