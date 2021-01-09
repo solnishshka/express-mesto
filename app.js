@@ -12,17 +12,19 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
   useCreateIndex: true,
-    useFindAndModify: false
+  useFindAndModify: false,
 });
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   req.user = {
-    _id: '5ff322f98b42f325490281b9' // вставьте сюда _id созданного в предыдущем пункте пользователя
+    _id: '5ff322f98b42f325490281b9',
   };
 
   next();
